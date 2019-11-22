@@ -103,9 +103,8 @@ def part_one(daily_logs: list):
 
 
 def get_guard_ids(daily_logs: list) -> frozenset:
-    guard_ids = set()
-    for log in daily_logs:
-        guard_ids.add(log[1])
+    id_list = list(zip(*daily_logs))[1]
+    guard_ids = set(id_list)
     return frozenset(guard_ids)
 
 
