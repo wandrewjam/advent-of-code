@@ -39,6 +39,13 @@ def find_closest_point(pt: tuple, pts: list) -> int:
     return min_key
 
 
+def find_total_distance(pt: tuple, pts: list) -> int:
+    total_distance = 0
+    for point in pts:
+        total_distance += distance(pt, point)
+    return total_distance
+
+
 def main(pts: list):
     # Exclude the points with infinite domains
     # Assemble the points on the boundary
@@ -62,8 +69,8 @@ def main(pts: list):
     areas = dict(zip(included_points, (0,)*len(included_points)))
 
     # closest_points = np.zeros(shape=(max_x - min_x + 1, max_y - min_y + 1))
-    for (j, y) in enumerate(range(min_y, max_y + 1)):
-        for (i, x) in enumerate(range(min_x, max_x + 1)):
+    for y in range(min_y, max_y + 1):
+        for x in range(min_x, max_x + 1):
             closest_pt = find_closest_point((x, y), pts)
             # closest_points[i, j] = closest_pt
             if closest_pt in areas.keys():
@@ -74,6 +81,15 @@ def main(pts: list):
     # plt.scatter(point_array[:, 0], point_array[:, 1], c='k')
     # plt.show()
     print(max(areas.values()))
+
+    distance_threshold = 10000
+    threshold_area = 0
+    for y in range(min_y, max_y + 1):
+        for x in range(min_x, max_x + 1):
+            total_distance = find_total_distance((x, y), pts)
+            if total_distance < distance_threshold:
+                threshold_area += 1
+    print(threshold_area)
 
 
 if __name__ == '__main__':
