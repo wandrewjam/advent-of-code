@@ -1,6 +1,4 @@
 # https://adventofcode.com/2018/day/6
-# import matplotlib.pyplot as plt
-# import numpy as np
 
 
 def load_file(filename: str) -> list:
