@@ -2,7 +2,7 @@
 
 
 def load_file(filename: str) -> list:
-    """ Load the module masses from  a file
+    """Load the module masses from  a file
 
     :param filename:
     :return: list of masses
@@ -14,7 +14,7 @@ def load_file(filename: str) -> list:
 
 
 def calculate_fuel(mass: int, method: int = 1) -> int:
-    """ Calculate the fuel required for a single module
+    """Calculate the fuel required for a single module
 
     :param mass:
     :param method:
