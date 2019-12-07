@@ -25,24 +25,12 @@ def run_program(program: list, inputs: list, i: int = 0) -> tuple:
         mode3, mode2, mode1, op_code = get_instructions(program[i])
         if op_code == 99:
             return None, 1, -1
-        # pos1, pos2, pos3 = [
-        #     switch_mode(program[k], k, mode)
-        #     for k, mode in zip(range(i+1, i+4), [mode1, mode2, mode3])
-        # ]
-        # pos = list()
-        # for k, mode in zip(range(i+1, i+4), [mode1, mode2, mode3]):
-        #     pos.append(switch_mode(program[k], k, mode))
-        # pos1, pos2, pos3 = pos
-        pos1 = switch_mode(program[i+1], i+1, mode1)
-        if i + 2 < len(program):
-            pos2 = switch_mode(program[i+2], i+2, mode2)
-        else:
-            pos2 = -1
 
-        if i + 3 < len(program):
-            pos3 = switch_mode(program[i+3], i+3, mode3)
-        else:
-            pos3 = -1
+        pos1, pos2, pos3 = [
+            switch_mode(program[k], k, mode)
+            if k < len(program) else -1
+            for k, mode in zip(range(i+1, i+4), [mode1, mode2, mode3])
+        ]
 
         if op_code == 1:
             program[pos3] = program[pos1] + program[pos2]
