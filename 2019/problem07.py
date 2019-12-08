@@ -21,10 +21,12 @@ def switch_mode(i1, i2, mode):
 
 def run_program(program: list, inputs: list, i: int = 0) -> tuple:
     input_count = 0
+    output = list()
     while i < len(program):
         mode3, mode2, mode1, op_code = get_instructions(program[i])
         if op_code == 99:
-            return None, 1, -1
+            status = 1
+            return output, status, i
 
         pos1, pos2, pos3 = [
             switch_mode(program[k], k, mode)
@@ -39,13 +41,18 @@ def run_program(program: list, inputs: list, i: int = 0) -> tuple:
             program[pos3] = program[pos1] * program[pos2]
             i += 4
         elif op_code == 3:
-            program[pos1] = inputs[input_count]
-            input_count += 1
-            i += 2
+            if input_count < len(inputs):
+                program[pos1] = inputs[input_count]
+                input_count += 1
+                i += 2
+            elif input_count == len(inputs):
+                status = 0
+                return output, status, i
+            else:
+                raise ValueError('Error in the inputs')
         elif op_code == 4:
             i += 2
-            status = 0
-            return program[pos1], status, i
+            output.append(program[pos1])
         elif op_code == 5:
             if program[pos1] == 0:
                 i += 3
@@ -78,7 +85,7 @@ def run_amplifier_sequence(program: list, phase_setting: tuple) -> int:
         program_copy = [i for i in program]
         input_instruction = run_program(
             program_copy, [setting, input_instruction]
-        )[0]
+        )[0][0]
     return input_instruction
 
 
@@ -89,17 +96,18 @@ def run_feedback_loop(program: list, phase_setting: tuple) -> int:
     final_output = None
     program_copies = [[i for i in program] for _ in range(len(phase_setting))]
     for j, setting in enumerate(phase_setting):
-        input_instruction, status, execution_point[j] = run_program(
+        output, status, execution_point[j] = run_program(
             program_copies[j], [setting, input_instruction], execution_point[j]
         )
+        input_instruction = output[0]
 
     while status != 1:
         for j in range(len(phase_setting)):
-            input_instruction, status, execution_point[j] = run_program(
+            output, status, execution_point[j] = run_program(
                 program_copies[j], [input_instruction], execution_point[j]
             )
-        if status == 0:
-            final_output = input_instruction
+            input_instruction = output[0]
+    final_output = input_instruction
     return final_output
 
 
