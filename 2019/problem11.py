@@ -1,5 +1,5 @@
-# https://adventofcode.com/2019/day/9
-from itertools import permutations
+# https://adventofcode.com/2019/day/11
+import matplotlib.pyplot as plt
 
 
 def load_file(filename: str) -> list:
@@ -84,22 +84,55 @@ def run_program(program: list, inputs: list, i: int = 0,
             raise ValueError('Invalid op_code!')
 
 
+def run_painting_robot(program, start_color=0) -> dict:
+    program_copy = [i for i in program]
+    program_copy += [0 for _ in range((2 ** 3 - 1) * len(program_copy))]
+    past_locations = {(0, 0): start_color}
+    robot_location = (0, 0)
+    robot_facing = (0, 1)
+    i, rel_base = 0, 0
+    while True:
+        try:
+            input = past_locations[robot_location]
+        except KeyError:
+            input = 0
+            past_locations[robot_location] = 0
+        output, status, i, rel_base = run_program(program_copy, [input],
+                                                  i, rel_base)
+        if status == 1:
+            break
+
+        past_locations[robot_location] = output[0]
+        if output[1] == 0:
+            robot_facing = (-robot_facing[1], robot_facing[0])
+        elif output[1] == 1:
+            robot_facing = (robot_facing[1], -robot_facing[0])
+        else:
+            raise ValueError('output is invalid')
+
+        robot_location = (robot_location[0] + robot_facing[0],
+                          robot_location[1] + robot_facing[1])
+    return past_locations
+
+
+def show_result(locations: dict):
+    x_coords, y_coords = list(zip(*locations.keys()))
+    minx, maxx = min(x_coords), max(x_coords)
+    miny, maxy = min(y_coords), max(y_coords)
+    hull = [[0 for _ in range(minx, maxx+1)] for _ in range(miny, maxy+1)]
+    for location, color in locations.items():
+        hull[location[1] - miny][location[0] - minx] = color
+
+    plt.imshow(hull, cmap='binary', origin='lower')
+    plt.show()
+
+
 def main(program: list):
-    program_copy = [i for i in program]
-    program_copy.extend([0] * (2**3 - 1) * len(program_copy))
+    gibberish = run_painting_robot(program, start_color=0)
+    registration = run_painting_robot(program, start_color=1)
+    show_result(gibberish)
+    show_result(registration)
 
-    output, status, i, rel_base = run_program(program_copy, [1])
-    print(status)
-    print(output)
-
-    print()
-
-    program_copy = [i for i in program]
-    program_copy.extend([0] * (2**3 - 1) * len(program_copy))
-
-    output, status, i, rel_base = run_program(program_copy, [2])
-    print(status)
-    print(output)
 
 
 if __name__ == '__main__':
@@ -108,6 +141,6 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         raw_program = load_file(sys.argv[1])
     else:
-        raw_program = load_file('problem09.in')
+        raw_program = load_file('problem11.in')
 
     main(raw_program)
