@@ -4,8 +4,8 @@
 def load_file(filename: str) -> list:
     """Load the module masses from  a file
 
-    :param filename:
-    :return: list of masses
+    :param filename: Location of the input file
+    :return: List of module masses
     """
     with open(filename) as f:
         masses = f.readlines()
@@ -16,9 +16,10 @@ def load_file(filename: str) -> list:
 def calculate_fuel(mass: int, method: int = 1) -> int:
     """Calculate the fuel required for a single module
 
-    :param mass:
-    :param method:
-    :return:
+    :param mass: List of module masses
+    :param method: Integer specifying whether to include the mass of the
+    additional fuel in the calculation
+    :return: Amount of fuel required
     """
     if method == 1:
         fuel = mass // 3 - 2
@@ -35,10 +36,10 @@ def calculate_fuel(mass: int, method: int = 1) -> int:
 
 def main(masses: list):
     total_fuel = sum([calculate_fuel(mass, method=1) for mass in masses])
-    print(total_fuel)
+    print('Solution to day 01, part 1: {}'.format(total_fuel))
 
     total_fuel = sum([calculate_fuel(mass, method=2) for mass in masses])
-    print(total_fuel)
+    print('Solution to day 01, part 2: {}'.format(total_fuel))
 
 
 if __name__ == '__main__':

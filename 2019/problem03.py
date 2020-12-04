@@ -2,6 +2,11 @@
 
 
 def load_file(filename: str) -> list:
+    """Load and parse the instruction list from a file
+
+    :param filename: Location of the input file
+    :return: Parsed instruction list
+    """
     with open(filename) as f:
         raw_instructions = f.readlines()
     instructions = [path.split(',') for path in raw_instructions]
@@ -9,6 +14,11 @@ def load_file(filename: str) -> list:
 
 
 def parse_path(instructions: list) -> list:
+    """Parse the instruction list to a path
+
+    :param instructions: List of instructions
+    :return: List of nodes in the path
+    """
     path = [(0, 0)]
     for instruction in instructions:
         direction = instruction[0]
@@ -33,6 +43,13 @@ def parse_path(instructions: list) -> list:
 
 
 def test_for_intersection(segment1: list, segment2: list) -> tuple:
+    """Test for an intersection between two line segments
+
+    :param segment1: First line segment
+    :param segment2: Second line segment
+    :return: Location of the intersection, or an empty tuple if the
+    segments don't intersect
+    """
     tmp = [*segment1, *segment2]
     x, y = zip(*tmp)
     if x[0] == x[1]:  # First segment vertical
@@ -58,6 +75,12 @@ def test_for_intersection(segment1: list, segment2: list) -> tuple:
 
 
 def find_intersections(paths_list: list) -> list:
+    """Locate all of the intersections between two paths
+
+    :param paths_list: List of paths (there must be exactly two paths)
+    :return: All intersections between the paths
+    """
+    assert len(paths_list) == 2
     intersections = list()
     for i in range(len(paths_list[0]) - 1):
         for j in range(len(paths_list[1]) - 1):
@@ -71,6 +94,12 @@ def find_intersections(paths_list: list) -> list:
 
 
 def find_path_length(path: list, intersection: tuple) -> int:
+    """Find the distance along a path to a given intersection
+
+    :param path: Path to follow
+    :param intersection: Requested intersection
+    :return: Distance along the path
+    """
     distance_traveled = 0
     int_x, int_y = intersection
     for i in range(len(path) - 1):

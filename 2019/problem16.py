@@ -1,9 +1,7 @@
 # https://adventofcode.com/2019/day/16
-import numpy as np
 
 
 def load_file(filename: str):
-    first_input = list()
     with open(filename) as f:
         first_input = [int(i) for i in f.readline()[:-1]]
     return first_input

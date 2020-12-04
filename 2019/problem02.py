@@ -1,7 +1,12 @@
-# # https://adventofcode.com/2019/day/2
+# https://adventofcode.com/2019/day/2
 
 
 def load_file(filename: str) -> list:
+    """Load the Intcode program from a file
+
+    :param filename: Location of the input file
+    :return: Parsed Intcode program
+    """
     with open(filename) as f:
         raw_program = f.readline()[:-1].split(',')
 
@@ -10,12 +15,24 @@ def load_file(filename: str) -> list:
 
 
 def write_input(program: list, noun: int = 12, verb: int = 2) -> list:
+    """Write to the second and third positions of a program
+
+    :param program: Intcode program to write to
+    :param noun: int to write to the first position
+    :param verb: int to write to the second position
+    :return: Modified Intcode program
+    """
     program[1] = noun
     program[2] = verb
     return program
 
 
 def run_program(program: list) -> int:
+    """Execute an Intcode program
+
+    :param program: Intcode program
+    :return: Output of the Intcode program
+    """
     for i in range(len(program) // 4 + 1):
         opcode = program[4 * i]
         if opcode == 99:
@@ -30,10 +47,27 @@ def run_program(program: list) -> int:
     return program[0]
 
 
-def search_input_space(saved_program: list) -> tuple:
+def run_part_one(program):
+    """Run Intcode program with default noun and verb
+
+    :param program: Intcode program
+    :return: Output of the Intcode program
+    """
+    program_copy = [i for i in program]
+    write_input(program_copy)
+    out = run_program(program_copy)
+    return out
+
+
+def search_input_space(program: list) -> tuple:
+    """Search for the noun and verb that produce the target output
+
+    :param program: Intcode program
+    :return: Correct noun and verb
+    """
     for noun in range(100):
         for verb in range(100):
-            program_copy = [i for i in saved_program]
+            program_copy = [i for i in program]
             write_input(program_copy, noun, verb)
             out = run_program(program_copy)
             if out == 19690720:
@@ -41,14 +75,11 @@ def search_input_space(saved_program: list) -> tuple:
 
 
 def main(program: list):
-    saved_program = [i for i in program]
-    write_input(program)
-    out = run_program(program)
-    print(out)
+    out = run_part_one(program)
+    print('Solution to day 02, part 1: {}'.format(out))
 
-    noun, verb = search_input_space(saved_program)
-
-    print(100 * noun + verb)
+    noun, verb = search_input_space(program)
+    print('Solution to day 02, part 2: {}'.format(100 * noun + verb))
 
 
 if __name__ == '__main__':

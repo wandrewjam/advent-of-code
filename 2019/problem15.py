@@ -115,7 +115,7 @@ def search(area, visited: set, position: np.ndarray, program_copy, i, rel_base):
             output, status, i, rel_base = run_program(program_copy, inputs, i, rel_base)
 
 
-def find_shortest_path(area: np.ndarray):
+def find_path_length(area: np.ndarray) -> int:
     source = np.where(area == 3)
     oxygen = np.where(area == 2)
     adjacent = [(-1, 0), (1, 0), (0, -1), (0, 1)]
@@ -163,7 +163,7 @@ def main(program: list):
     area[position[0], position[1]] += 2
     plt.imshow(area)
     plt.show()
-    shortest_path = find_shortest_path(area)
+    shortest_path = find_path_length(area)
     print(np.where(area == 2))
     print(np.where(area == 3))
     print(shortest_path)
