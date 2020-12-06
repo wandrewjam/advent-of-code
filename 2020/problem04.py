@@ -2,10 +2,10 @@
 
 
 def load_file(filename: str):
-    """
+    """Read and parse passport entries in file
 
-    :param filename:
-    :return:
+    :param filename: Location of the file containing the passports
+    :return: List of parsed passports
     """
     passport_list = []
     with open(filename, 'r') as f:
