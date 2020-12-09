@@ -1,4 +1,4 @@
-# https://adventofcode.com/2020/day/4
+# https://adventofcode.com/2020/day/5
 
 
 def load_file(filename: str) -> list:
