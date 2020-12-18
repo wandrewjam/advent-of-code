@@ -1,19 +1,6 @@
 # https://adventofcode.com/2020/day/7
 
 
-class Tree:
-    def __init__(self, root):
-        self.root = root
-
-
-class Node:
-    def __init__(self, name, parent, left_child, right_sibling):
-        self.name = name
-        self.parent = parent
-        self.child = left_child
-        self.sibling = right_sibling
-
-
 def load_file(filename: str) -> list:
     """Read file containing the bag-containing specifications
 
@@ -47,7 +34,13 @@ def parse_bags(bag_restrictions: list) -> list:
     return parsed_restrictions
 
 
-def find_containing_bags(bag, parsed_restrictions):
+def find_containing_bags(bag: str, parsed_restrictions: list) -> set:
+    """Find all the bags that can contain a given bag type
+
+    :param bag: Type of bag to check
+    :param parsed_restrictions: List of bag-containing restrictions
+    :return: Set of bags that can contain the given bag type
+    """
     containers = set()
     for parent, children in parsed_restrictions:
         for child in children:
@@ -58,7 +51,13 @@ def find_containing_bags(bag, parsed_restrictions):
     return containers
 
 
-def count_bags_contained(bag, parsed_restrictions):
+def count_bags_contained(bag: str, parsed_restrictions: list) -> int:
+    """Count of bags that a given bag must contain (inc. itself)
+
+    :param bag: Type of bag to check
+    :param parsed_restrictions: List of bag-containing restrictions
+    :return: Count of the total number of bags the given type contains
+    """
     count = 0
     for parent, children in parsed_restrictions:
         if bag == parent:
@@ -72,10 +71,10 @@ def main(bag_data):
     parsed_restrictions = parse_bags(bag_data)
     my_bag = 'shiny gold'
     containers = find_containing_bags(my_bag, parsed_restrictions)
-    print(len(containers))
+    print('Solution to 2020 day 07, part 1: {}'.format(len(containers)))
 
     bags_contained = count_bags_contained(my_bag, parsed_restrictions) - 1
-    print(bags_contained)
+    print('Solution to 2020 day 07, part 2: {}'.format(bags_contained))
 
 
 if __name__ == '__main__':
