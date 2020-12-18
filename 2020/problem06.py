@@ -2,10 +2,10 @@
 
 
 def load_file(filename: str) -> list:
-    """
+    """Read file containing survey responses
 
-    :param filename:
-    :return:
+    :param filename: Location of survey response file
+    :return: List of survey responses by group
     """
     groups = []
     gp = []
