@@ -1,7 +1,7 @@
 # https://adventofcode.com/2020/day/8
 
 
-def load_program(filename: str):
+def load_program(filename: str) -> list:
     """Load the program from a file
 
     :param filename: Location of the list of program commands
