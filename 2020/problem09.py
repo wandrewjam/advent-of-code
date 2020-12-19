@@ -49,8 +49,6 @@ def main(xmas: list):
     print('Solution to 2020 day 09, part 2: {}'.format(sequence_sum))
 
 
-
-
 if __name__ == '__main__':
     import sys
 
