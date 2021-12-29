@@ -37,10 +37,10 @@ def solve_part_two(commands: list) -> int:
 
 def main(depths: list):
     solution_1 = solve_part_one(depths)
-    print('Solution to day 01, part 1: {}'.format(solution_1))
+    print('Solution to day 02, part 1: {}'.format(solution_1))
 
     solution_2 = solve_part_two(depths)
-    print('Solution to day 01, part 2: {}'.format(solution_2))
+    print('Solution to day 02, part 2: {}'.format(solution_2))
 
 
 if __name__ == '__main__':
